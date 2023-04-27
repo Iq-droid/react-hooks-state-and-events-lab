@@ -87,3 +87,55 @@ items based on the `selectedCategory`.
 ## Resources
 
 - [React Docs on `useState`](https://reactjs.org/docs/hooks-state.html)
+
+
+
+
+
+
+
+
+
+import React, { useState } from "react";
+import ShoppingList from "./ShoppingList";
+import itemData from "../data/items";
+
+function App() {
+const [darkMode, setDarkMode] = useState(false);
+const [selectedCategory, setSelectedCategory] = useState("All");
+
+function handleDarkModeToggle() {
+setDarkMode(!darkMode);
+}
+
+function handleCategorySelect(category) {
+setSelectedCategory(category);
+}
+
+const filteredItems =
+selectedCategory === "All"
+? itemData
+: itemData.filter((item) => item.category === selectedCategory);
+
+const appClass = darkMode ? "App dark" : "App light";
+
+return (
+<div className={appClass}>
+<header>
+<h2>Shopster</h2>
+<button onClick={handleDarkModeToggle}>
+{darkMode ? "Light Mode" : "Dark Mode"}
+</button>
+<select value={selectedCategory} onChange={(e) => handleCategorySelect(e.target.value)}>
+<option value="All">All</option>
+<option value="Food">Food</option>
+<option value="Electronics">Electronics</option>
+<option value="Clothing">Clothing</option>
+</select>
+</header>
+<ShoppingList items={filteredItems} />
+</div>
+);
+}
+
+export default App;
